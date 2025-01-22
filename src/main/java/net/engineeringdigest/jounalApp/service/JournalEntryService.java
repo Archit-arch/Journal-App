@@ -27,7 +27,7 @@ public class JournalEntryService {
             JournalEntry saved = journalEntryRepository.save(journalEntry);  //We get that journal entry
 
             user.getJournalEntries().add(saved);  //We add that journal entry to the list.
-            userService.saveEntry(user);  //User ko bhi save krliya with new journal entry.
+            userService.saveUser(user);  //User ko bhi save krliya with new journal entry.
         }catch(Exception e){
             System.out.println(e);
             throw new RuntimeException("Error saving journal entry", e);
@@ -51,11 +51,15 @@ public class JournalEntryService {
     }
 
 
-    public void deleteById(ObjectId id, String userName){
+    public boolean deleteById(ObjectId id, String userName){
+        boolean removed = false;
         User user = userService.findByUserName(userName);
-        user.getJournalEntries().removeIf(journalEntry -> journalEntry.getId().equals(id));
-        userService.saveEntry(user);  //Updated user save ho jaay gi
-        journalEntryRepository.deleteById(id);
+        removed = user.getJournalEntries().removeIf(journalEntry -> journalEntry.getId().equals(id));
+        if(removed){
+            userService.saveUser(user);;  //Updated user save ho jaay gi
+            journalEntryRepository.deleteById(id);
+        }
+        return removed;
     }
 
 
