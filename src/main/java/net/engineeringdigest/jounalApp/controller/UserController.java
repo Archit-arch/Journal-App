@@ -1,8 +1,10 @@
 package net.engineeringdigest.jounalApp.controller;
 
+import net.engineeringdigest.jounalApp.api.response.WeatherResponse;
 import net.engineeringdigest.jounalApp.entity.User;
 import net.engineeringdigest.jounalApp.repository.UserRepository;
 import net.engineeringdigest.jounalApp.service.UserService;
+import net.engineeringdigest.jounalApp.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
+    private WeatherService weatherService;
     /*@GetMapping
     public List<User> getAllUsers(){
         return userService.getAll();
@@ -56,5 +59,17 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping
+    public ResponseEntity<?> greeting(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        WeatherResponse weatherResponse = weatherService.getWeather("Mumbai");
+
+        String greeting ="";
+
+        if(weatherResponse!=null){
+            greeting += ", Weather feels like "+weatherResponse.getCurrent().getFeelslike();
+        }
+        return new ResponseEntity<>("Hi "+authentication.getName() + greeting, HttpStatus.OK);
+    }
 
 }

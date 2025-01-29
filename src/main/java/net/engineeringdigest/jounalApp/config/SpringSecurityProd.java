@@ -4,8 +4,6 @@ package net.engineeringdigest.jounalApp.config;
 
 import net.engineeringdigest.jounalApp.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -21,8 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@Profile("dev")
-public class SpringSecurity {
+@Profile("prod")
+public class SpringSecurityProd {
 
 
     @Autowired
@@ -34,10 +32,10 @@ public class SpringSecurity {
 
 
         return http.authorizeHttpRequests(request -> request
-                        .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/journal/**", "/user/**").authenticated()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().permitAll())
+                        //.requestMatchers("/public/**").permitAll()
+                        //.requestMatchers("/journal/**", "/user/**").authenticated()
+                        //.requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();

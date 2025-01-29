@@ -4,6 +4,8 @@ import net.engineeringdigest.jounalApp.entity.JournalEntry;
 import net.engineeringdigest.jounalApp.entity.User;
 import net.engineeringdigest.jounalApp.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,8 @@ public class JournalEntryService {
 
     @Autowired
     private UserService userService;
+
+
     @Autowired
     //Dependency Injection...
     private JournalEntryRepository journalEntryRepository;
@@ -29,7 +33,7 @@ public class JournalEntryService {
             user.getJournalEntries().add(saved);  //We add that journal entry to the list.
             userService.saveUser(user);  //User ko bhi save krliya with new journal entry.
         }catch(Exception e){
-            System.out.println(e);
+
             throw new RuntimeException("Error saving journal entry", e);
         }
 

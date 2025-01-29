@@ -3,6 +3,8 @@ package net.engineeringdigest.jounalApp.service;
 import net.engineeringdigest.jounalApp.entity.User;
 import net.engineeringdigest.jounalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,10 +22,19 @@ public class UserService {
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public void saveNewuser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
-        userRepository.save(user);
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    public boolean saveNewuser(User user){
+        try{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+            return true;
+        }
+        catch(Exception e){
+            logger.info("hahahahaha");
+            return false;
+        }
     }
 
     public void saveUser(User user){
