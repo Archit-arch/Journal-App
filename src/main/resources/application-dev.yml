@@ -8,6 +8,17 @@ spring:
       auto-index-creation: true
   main:
     allow-circular-references: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8080
@@ -16,4 +27,4 @@ server:
 
 weather:
   api:
-    key: 56a8ba37b712ed179c0469130af7e153
+    key: 615af65848a4d836477fa479157ad323
